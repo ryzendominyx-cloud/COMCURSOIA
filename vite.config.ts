@@ -3,14 +3,14 @@ import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  // Carrega variáveis de ambiente (como a API_KEY definida no Vercel)
-  const env = loadEnv(mode, (process as any).cwd(), '');
+  // Carrega variáveis de ambiente
+  const env = loadEnv(mode, process.cwd(), '');
   
   return {
     plugins: [react()],
+    // CRÍTICO PARA GITHUB PAGES: base './' faz os assets serem relativos
+    base: './', 
     define: {
-      // Substitui process.env.API_KEY pelo valor real durante o build
-      // Isso é necessário porque process.env não existe nativamente no navegador
       'process.env.API_KEY': JSON.stringify(env.API_KEY)
     }
   };
